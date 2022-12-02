@@ -56,12 +56,35 @@ class RPS:
             Takes a tuple and determines who was winner (or tie).
             Returns point(s) for the round.
             """
-            pass
+
+            choices = {
+                "X": "A",
+                "Y": "B",
+                "Z": "C"
+            }
+            opponent = item[0].upper()
+            my_choice = choices[item[1].upper()]
+
+            if opponent == my_choice:
+                return 3;
+            elif (opponent == "A" and my_choice == "C") or (opponent == "B" and my_choice == "A") or (opponent == "C" and my_choice == "B"):
+                return 0
+            else:
+                return 6
+
+        total = 0
         for pair in self.choices:
-            pass
+            choice_pt = get_match_choice_pts(pair[1])
+            # print(f"choice points:\t{choice_pt}")
+            match_pt = check_win(pair)
+            # print(f"Match Point:\t{match_pt}")
+            # print(f"Total:\t{choice_pt + match_pt}")
+            total += choice_pt + match_pt
+        return total
 
 
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
-    findings = RPS(test_file)
+    findings = RPS(input_file)
     print(findings.choices)
+    print(findings.points)

@@ -27,11 +27,11 @@ Winner with the highest score, where:
 - round outcome:  lost (0), draw (3), won (16)
 
 ### Opponent
+- Rock - A
+- Paper - B
+- Scissors - C
+
+### Response
 - Rock - X
 - Paper - Y
 - Scissors - Z
-
-### Response
-- Rock - 1
-- Paper - 2
-- Scissors - 3

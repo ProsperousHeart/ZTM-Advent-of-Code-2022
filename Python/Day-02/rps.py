@@ -21,6 +21,11 @@ class RPS:
         self.points = self.calc_points()
 
     def read_guide(self):
+        """
+        This class function creates a list of tuples based on
+        the text in the file provided. No error checking.
+        Returns a list of tuples.
+        """
         tup_list = []
         try:
             with open(self.file_str, 'r') as file:
@@ -31,8 +36,26 @@ class RPS:
         return tup_list
 
     def calc_points(self):
-        def check_win(item):
+        """
+        Calculates points based on a list of tuples.
+        """
 
+        def get_match_choice_pts(item):
+            """
+            Takes in a string, returns point for choice.
+            """
+            choice_dict = {
+                "X": 1,
+                "Y": 2,
+                "Z": 3
+            }
+            return choice_dict[item.upper()]
+
+        def check_win(item):
+            """
+            Takes a tuple and determines who was winner (or tie).
+            Returns point(s) for the round.
+            """
             pass
         for pair in self.choices:
             pass

@@ -6,12 +6,14 @@ file_str = r"Files/Day1.txt"
 
 
 class Elves():
-    def __init__(self, file):
+    def __init__(self, file: str, top: int):
         self.file_in = file
         self.elves = self.read2parse()
-        self.elves_sorted = None
+        self.elves_sorted = self.sort_desc()
+        self.top = self.add_top(top)
 
     def read2parse(self, ):
+        cal_list = []
         try:
             with open(self.file_in, 'r') as file_in:
                 elf_cals = 0
@@ -22,15 +24,20 @@ class Elves():
                         elf_cals += int(line)
                         # print(f"New cals:\t{elf_cals}")
                     else:
-                        self.elves.append(elf_cals)
+                        cal_list.append(elf_cals)
                         elf_cals = 0
         except IOError as err:
             print(f"File does not exist:\t{self.file_in}")
-        self.sort_desc()
+
+        return cal_list
 
     def sort_desc(self):
-        self.elves_sorted = sorted(elves, reverse=True)
-        print(self.elves_sorted)
+        desc_cals = sorted(self.elves, reverse=True)
+        # print(desc_cals)
+        return desc_cals
+
+    def add_top(self, num: int):
+        return sum(self.elves_sorted[:num])
 
 
 def pull_HTML(url: str):
@@ -45,11 +52,5 @@ if __name__ == "__main__":
     # html = pull_HTML(day1_url)
     # print(html)
 
-    # fail_bool, cals = read2parse(file_str)
-    # if fail_bool:
-    #     print(cals)
-    # else:
-    #     print(f"Highest amount of calories:\t{cals}")
-
-    elf_obj = Elves(file_str)
-    print(elf_obj.elves_sorted[:3])
+    elf_obj = Elves(file_str, 3)
+    print(elf_obj.top)

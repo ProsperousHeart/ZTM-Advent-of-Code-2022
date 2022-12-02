@@ -40,6 +40,25 @@ class RPS:
         Calculates points based on a list of tuples.
         """
 
+        def convert_choice(item):
+            """
+            Takes in a tuple, and based on index 1 (WLT)
+            changes the choice to RPS. Returns X, Y, or Z.
+            """
+
+            option_dict = {
+                "A": ("Z", "X", "Y"),
+                "B": ("X", "Y", "Z"),
+                "C": ("Y", "Z", "X")
+            }
+
+            if item[1].upper() == "X": # lose
+                return option_dict[item[0]][0]
+            elif item[1].upper() == "Y": # draw
+                return option_dict[item[0]][1]
+            else: # win
+                return option_dict[item[0]][2]
+
         def get_match_choice_pts(item):
             """
             Takes in a string, returns point for choice.
@@ -64,6 +83,8 @@ class RPS:
             }
             opponent = item[0].upper()
             my_choice = choices[item[1].upper()]
+            # print(opponent, my_choice)
+
 
             if opponent == my_choice:
                 return 3;
@@ -74,10 +95,16 @@ class RPS:
 
         total = 0
         for pair in self.choices:
-            choice_pt = get_match_choice_pts(pair[1])
+            # print(f"Original pair:\t{pair}")
+            opp_choice = pair[0]
+            # print(f"Opponent: \t{opp_choice}")
+            # print(f"My Choice: \t{pair[1]}")
+            my_choice = convert_choice(pair)
+            # print(f"My NEW Choice: \t{my_choice}")
+            choice_pt = get_match_choice_pts(my_choice)
             # print(f"choice points:\t{choice_pt}")
-            match_pt = check_win(pair)
-            # print(f"Match Point:\t{match_pt}")
+            match_pt = check_win((opp_choice, my_choice))
+            # print(f"Match Point:\t{match_pt}\n")
             # print(f"Total:\t{choice_pt + match_pt}")
             total += choice_pt + match_pt
         return total
@@ -85,6 +112,7 @@ class RPS:
 
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
+    # findings = RPS(test_file)
     findings = RPS(input_file)
     print(findings.choices)
     print(findings.points)

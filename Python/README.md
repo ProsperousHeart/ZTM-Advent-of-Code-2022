@@ -11,4 +11,4 @@ Need to take the input (a web page with numbers on it) and:
 
 ## PArt 2
 
-Need to show top 3 elves' calories.
+Need to show top 3 elves' calories combined total.

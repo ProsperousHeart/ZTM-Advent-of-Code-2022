@@ -38,6 +38,8 @@ Winner with the highest score, where:
 
 # Day 3 - Rucksack Reorganization
 
+## Part 1
+
 You have a "sack" with 2 compartments. Certain objects go in a specific section.
 
 An elf messed up 1 item. Need to find errors.
@@ -48,3 +50,9 @@ First half of string is one side, the rest is the other. Which item appears in b
 There could be duplicates
 
 what is the sum of priorities shared?
+
+## Part 2
+
+Need to read in a file of lines that have characters. But this time, every set of 3 belongs to a group. And 1 character matches among them.
+
+Take that character and provide it a number same as before. Add those numbers up.

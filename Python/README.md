@@ -35,3 +35,16 @@ Winner with the highest score, where:
 - Rock - X
 - Paper - Y
 - Scissors - Z
+
+# Day 3 - Rucksack Reorganization
+
+You have a "sack" with 2 compartments. Certain objects go in a specific section.
+
+An elf messed up 1 item. Need to find errors.
+Every type is ID'd by a single lower or upper case letter (a and A are different)
+lowercase are 1-26 in priority, upper are 27-52
+
+First half of string is one side, the rest is the other. Which item appears in both?
+There could be duplicates
+
+what is the sum of priorities shared?

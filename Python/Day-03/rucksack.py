@@ -35,6 +35,22 @@ class Parser:
             print(f"File does not exist:\t{self.file_str}")
         return tup_list
 
+    def find_match(self):
+        """
+        Takes obj's list of tuples and finds the common character between each.
+
+        Returns a list of characters.
+        """
+
+        pass
+
+    def convert2num(self):
+        """
+        Converts each section's characters to numbers, adds them up, and returns the ...
+        """
+
+        pass
+
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)

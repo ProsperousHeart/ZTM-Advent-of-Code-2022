@@ -1,5 +1,5 @@
 # file_in = "Files/test.txt"
-file_in = "Files/input.txt"
+file_in = "Files/input-pt1.txt"
 
 class Parser:
     """Parser class."""
@@ -18,24 +18,28 @@ class Parser:
 
     def read_inv(self):
         """
-        Reads in a TXT file. For each line, it:
-        1. splits in half
-        2. returns a list of tuples
+        Reads in a TXT file. Every 3 lines it groups together.
+        Returns a list of tuples.
         """
 
-        tup_list = []
+        groups = []
         try:
             with open(self.file_str, 'r') as file:
+                trio = 0
+                group = []
                 for line in file:
+                    trio+=1
                     line = line.strip()
-                    mid = len(line) // 2
-                    # print(mid)
-                    pt1 = line[:mid]
-                    pt2 = line[mid:]
-                    tup_list.append((pt1, pt2))
+                    group.append(line)
+                    print(f"GRP: {group}")
+                    if trio == 3:
+                        trio = 0
+                        groups.append(tuple(group))
+                        group = []
+                        print(f"GRPs: {groups}")
         except IOError as err:
             print(f"File does not exist:\t{self.file_str}")
-        return tup_list
+        return groups
 
     def find_match(self):
         """
@@ -46,8 +50,7 @@ class Parser:
 
         match_list = []
         for tup in self.rucks:
-            print(f"Sets |\t{set(tup[0])} - {set(tup[1])}")
-            match_list.append([item for item in set(tup[0]) if item in set(tup[1])][0])
+            match_list.append([item for item in set(tup[0]) if (item in set(tup[1]) and item in set(tup[2]))][0])
         print(f"Matches:\t{match_list}")
         return match_list
 
@@ -70,4 +73,6 @@ class Parser:
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)
+    print(cntr.rucks)
+    print(cntr.matches)
     print(cntr.add_Ms)

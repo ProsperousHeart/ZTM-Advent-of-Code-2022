@@ -1,5 +1,5 @@
-file_in = "Files/test.txt"
-# file_in = "Files/input.txt"
+# file_in = "Files/test.txt"
+file_in = "Files/input.txt"
 
 class Parser:
     """Parser class."""
@@ -57,9 +57,17 @@ class Parser:
         and returns the sum or priorities.
         """
 
-        pass
+        low_char = 'abcdefghijklmnopqrstuvwxyz'
+        pri_list = []
+        for char in self.matches:
+            priority = 0
+            if char.isupper():
+                priority+=26
+            priority+=1+low_char.index(str(char.lower()))
+            pri_list.append(priority)
+        return sum(pri_list)
 
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)
-    # print(cntr.rucks)
+    print(cntr.add_Ms)

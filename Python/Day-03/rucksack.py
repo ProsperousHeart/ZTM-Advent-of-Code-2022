@@ -29,7 +29,7 @@ class Parser:
                 for line in file:
                     line = line.strip()
                     mid = len(line) // 2
-                    print(mid)
+                    # print(mid)
                     pt1 = line[:mid]
                     pt2 = line[mid:]
                     tup_list.append((pt1, pt2))
@@ -44,7 +44,12 @@ class Parser:
         Returns a list of characters.
         """
 
-        pass
+        match_list = []
+        for tup in self.rucks:
+            print(f"Sets |\t{set(tup[0])} - {set(tup[1])}")
+            match_list.append([item for item in set(tup[0]) if item in set(tup[1])][0])
+        print(f"Matches:\t{match_list}")
+        return match_list
 
     def convert2num(self):
         """
@@ -57,4 +62,4 @@ class Parser:
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)
-    print(cntr.rucks)
+    # print(cntr.rucks)

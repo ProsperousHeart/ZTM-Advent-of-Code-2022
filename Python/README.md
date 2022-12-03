@@ -56,3 +56,7 @@ what is the sum of priorities shared?
 Need to read in a file of lines that have characters. But this time, every set of 3 belongs to a group. And 1 character matches among them.
 
 Take that character and provide it a number same as before. Add those numbers up.
+
+# Day 4
+
+TBD

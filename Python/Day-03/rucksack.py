@@ -12,7 +12,9 @@ class Parser:
         """
 
         self.file_str = file
-        self.rucks = self.read_inv()
+        self.rucks = self.read_inv()        # list of tuples
+        self.matches = self.find_match()    # list of characters that match
+        self.add_Ms = self.convert2num()    # number
 
     def read_inv(self):
         """
@@ -46,7 +48,8 @@ class Parser:
 
     def convert2num(self):
         """
-        Converts each section's characters to numbers, adds them up, and returns the ...
+        Converts each section's characters to numbers, adds them up,
+        and returns the sum or priorities.
         """
 
         pass

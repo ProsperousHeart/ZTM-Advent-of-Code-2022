@@ -31,12 +31,12 @@ class Parser:
                     trio+=1
                     line = line.strip()
                     group.append(line)
-                    print(f"GRP: {group}")
+                    # print(f"GRP: {group}")
                     if trio == 3:
                         trio = 0
                         groups.append(tuple(group))
                         group = []
-                        print(f"GRPs: {groups}")
+                        # print(f"GRPs: {groups}")
         except IOError as err:
             print(f"File does not exist:\t{self.file_str}")
         return groups
@@ -51,7 +51,7 @@ class Parser:
         match_list = []
         for tup in self.rucks:
             match_list.append([item for item in set(tup[0]) if (item in set(tup[1]) and item in set(tup[2]))][0])
-        print(f"Matches:\t{match_list}")
+        # print(f"Matches:\t{match_list}")
         return match_list
 
     def convert2num(self):
@@ -73,6 +73,6 @@ class Parser:
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)
-    print(cntr.rucks)
-    print(cntr.matches)
+    # print(cntr.rucks)
+    # print(cntr.matches)
     print(cntr.add_Ms)

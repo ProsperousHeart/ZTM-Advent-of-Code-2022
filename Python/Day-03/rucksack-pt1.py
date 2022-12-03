@@ -1,5 +1,5 @@
 # file_in = "Files/test.txt"
-file_in = "Files/input.txt"
+file_in = "Files/input-pt1.txt"
 
 class Parser:
     """Parser class."""

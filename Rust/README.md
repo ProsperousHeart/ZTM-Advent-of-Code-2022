@@ -1,0 +1,1 @@
+This section is a placeholder for the completion of advent via Rust programming instead of python. This is not a focus to complete during advent, but more to solidify my own understanding of the new language when time permits.

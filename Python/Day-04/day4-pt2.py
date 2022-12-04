@@ -12,12 +12,14 @@ class Parser:
         """
 
         self.file_str = file
-        self.elves = self.read_inv()        # list of tuples
-        self.full_strs = self.convert2num()
-        self.matches = self.convert_str()    # list of characters that match
-        self.count = self.count()  # self.convert2num()    # number
+        self.elves = self.read_inv(self.file_str)        # list of tuples
+        self.full_strs = self.convert2num(self.elves)
+        self.matches = self.convert_str(self.full_strs)    # list of characters that match
+        self.cnt = self.count(self.matches)  # self.convert2num()    # number
+        # self.count2 = self.count(self.pt2())
+        self.cnt2 = self.count(self.pt2(self.full_strs))
 
-    def read_inv(self):
+    def read_inv(self, f_str: str):
         """
         Reads in a TXT file. Every 3 lines it groups together.
         Returns a list of tuples.
@@ -25,20 +27,20 @@ class Parser:
 
         rtn_list = []
         try:
-            with open(self.file_str, 'r') as file:
+            with open(f_str, 'r') as file:
                 for line in file:
                     line = line.strip()
                     elf1, elf2 = line.split(',')
                     # print(elf1, elf2)
                     rtn_list.append((elf1, elf2))
         except IOError as err:
-            print(f"File does not exist:\t{self.file_str}")
+            print(f"File does not exist:\t{f_str}")
         return rtn_list
 
-    def convert2num(self):  # (2-4,6-8)
+    def convert2num(self, elves: list):  # (2-4,6-8)
         tup2rtn = []
         #print(self.elves)
-        for pair in self.elves:
+        for pair in elves:
             temp_lst = []
             #print("convert2num pair:\t", pair)
             for item in pair:
@@ -51,7 +53,7 @@ class Parser:
 
         return tuple(tup2rtn)
 
-    def convert_str(self):
+    def convert_str(self, full_nums: list):
         """
         Creates a list of tuples, where:
         1. element 1    elf1's number line
@@ -59,7 +61,7 @@ class Parser:
         """
 
         #print("============convertstr===================")
-        orig_list = self.full_strs
+        orig_list = full_nums
         # print(orig_list)
         list2rtn = []
         for item in orig_list: # will be a 2 element tuple
@@ -77,17 +79,29 @@ class Parser:
         #print(list2rtn)
         return list2rtn
 
-    def count(self):
+    def count(self, list2chk):
         """
         Takes obj's list of tuples and finds the common character between each.
 
         Returns a list of characters.
         """
 
-        return sum(self.matches)
+        return sum(list2chk)
+
+    def pt2(self, full_strs):
+        tmp_lst = full_strs
+        print(tmp_lst)
+        list2rtn = []
+        for item in tmp_lst:  # tuple
+            if set(item[0]).intersection(item[1]):
+                list2rtn.append(True)
+            else:
+                list2rtn.append(False)
+        return list2rtn
 
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)
     # print(cntr.matches)
-    print(cntr.count)
+    print(cntr.cnt)
+    print(cntr.cnt2)

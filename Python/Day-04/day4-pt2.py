@@ -7,8 +7,6 @@ class Parser:
     def __init__(self, file: str):
         """
         Instantiation of class requires the string location for data.
-        This creates 4 attributes:
-            1. file_str STR     holds info about the file to read
         """
 
         self.file_str = file
@@ -38,6 +36,11 @@ class Parser:
         return rtn_list
 
     def convert2num(self, elves: list):  # (2-4,6-8)
+        """
+        Creates a list of tuples, where:
+        1. element 1    elf1's number line
+        2. element 2    elf2's number line
+        """
         tup2rtn = []
         #print(self.elves)
         for pair in elves:
@@ -55,9 +58,8 @@ class Parser:
 
     def convert_str(self, full_nums: list):
         """
-        Creates a list of tuples, where:
-        1. element 1    elf1's number line
-        2. element 2    elf2's number line
+        Takes in list of tuples. returns list of booleans where
+        true if one item of a pair is found within another.
         """
 
         #print("============convertstr===================")
@@ -81,16 +83,18 @@ class Parser:
 
     def count(self, list2chk):
         """
-        Takes obj's list of tuples and finds the common character between each.
-
-        Returns a list of characters.
+        Takes in a list of booleans. Returns count of True.
         """
 
         return sum(list2chk)
 
     def pt2(self, full_strs):
+        """
+        Takes in list of tuples. returns list of booleans where
+        true if any item of a pair is found within another.
+        """
         tmp_lst = full_strs
-        print(tmp_lst)
+        # print(tmp_lst)
         list2rtn = []
         for item in tmp_lst:  # tuple
             if set(item[0]).intersection(item[1]):
@@ -103,5 +107,5 @@ class Parser:
 if __name__ == "__main__":
     cntr = Parser(file_in)
     # print(cntr.matches)
-    print(cntr.cnt)
-    print(cntr.cnt2)
+    print('# where 1 is in another:\t\t', cntr.cnt)
+    print('and item of one list is in the other:\t', cntr.cnt2)

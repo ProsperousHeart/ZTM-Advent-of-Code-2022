@@ -28,6 +28,7 @@ class Parser:
         self.file_str = file
         # self.rows = self.rows_test  # not best practice
         self.rows = self.rows_full  # not best practice
+        print(self.rows)
         self.steps = self.read_inv(file)
 
         self.move()
@@ -47,7 +48,7 @@ class Parser:
         except IOError as err:
             print(f"File does not exist:\t{self.file_str}")
             return
-        print(num_list)
+        # print(num_list)
         return num_list
 
     def move(self, ):
@@ -60,22 +61,22 @@ class Parser:
         rows = self.rows
         steps = self.steps
 
-        print("Before:\t", self.rows)
+        # print("Before:\t", self.rows)
         for step in steps:
-            print('=======\nbefore', rows)
-            print('step', step)
+            # print('=======\nbefore', rows)
+            # print('step', step)
             tmp_list = list(rows[step[1]])
             to_mv = tmp_list[-step[0]:]
             del tmp_list[-step[0]:]
             rows[step[1]] = tmp_list
-            # to_mv.reverse()
-            print(f"to_mv (type: {type(to_mv)}:\t{to_mv}")
+            # # to_mv.reverse()
+            # print(f"to_mv (type: {type(to_mv)}:\t{to_mv}")
 
-            print('to_mv:\t', to_mv)
-            print("before:\t", rows[step[2]])
+            # print('to_mv:\t', to_mv)
+            # print("before:\t", rows[step[2]])
             rows[step[2]] += ''.join(to_mv)
-            print("after:\t", rows[step[2]])
-            print('after', rows)
+            # print("after:\t", rows[step[2]])
+            # print('after', rows)
 
         # print("After:\t", self.rows)
 
@@ -84,7 +85,7 @@ class Parser:
         Returns list (in order) each column's top item or each row's last item.
         """
         str2rtn = []
-        print(self.rows)
+        # print(self.rows)
         for row, items in self.rows.items():
             str2rtn.extend(items[-1])
 
@@ -95,4 +96,3 @@ class Parser:
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
     cntr = Parser(file_in)
-    pass

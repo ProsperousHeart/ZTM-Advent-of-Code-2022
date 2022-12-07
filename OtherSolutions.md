@@ -10,7 +10,26 @@ Along the way, I was discussing with some people who were sharing their solution
 
 - [Khaprel](https://github.com/Khaprel/Advent-of-Code-22)
 
+## Day 5
+- [Day 5 - dspi](https://github.com/dspi/ZTM_AdventOfCode2022/blob/main/day05/crate_stacks.py)
+- [Day 5 - TurboHolmes](https://turboholmes.github.io/aoc/#orgb7bf04a)
+
+## Day 6
+- [Day 6 - wmporter](https://github.com/wmporter/aoc2022/blob/main/day06/solution.py)
+- [Day 6 - TheFirstCodeBender](https://github.com/TheFirstCodeBender/AdventOfCode2022/tree/main/Day%206)
+
+# JS
+
+- [Day 5 - KevinBatdorf](https://github.com/KevinBatdorf/aoc2022/blob/main/day5.js)
+
+## Day 6
+- [Day 6 - KevinBatdorf](https://github.com/KevinBatdorf/aoc2022/blob/main/day6.js)
+- [Day 6 - terrablue](https://github.com/terrablue/aoc/blob/master/2022/6/main.mjs)
+
 # Alternative Rust Suggestions
 
 - jaysen-lennon (e.g.:  [day 5](https://github.com/jayson-lennon/aoc2022/blob/main/src/bin/day05.rs))
 
+# Automated Code
+
+Someone was able to automate their solution - my fork of it is [here](https://github.com/ProsperousHeart/aoc-gpt/blob/main/openai.py) though I've not tried it yet.

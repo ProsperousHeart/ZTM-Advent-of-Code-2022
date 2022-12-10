@@ -1,8 +1,6 @@
 # https://docs.python.org/3/library/pprint.html
 import pprint
 
-from itertools import groupby
-
 pp = pprint.PrettyPrinter(indent=4)
 
 # file_in = "Files/test.txt"

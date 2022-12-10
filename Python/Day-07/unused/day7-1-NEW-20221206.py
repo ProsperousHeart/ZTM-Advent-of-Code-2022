@@ -6,7 +6,7 @@ from itertools import groupby
 pp = pprint.PrettyPrinter(indent=4)
 
 # file_in = "Files/test.txt"
-file_in = "Files/test2.txt"
+file_in = "../Files/test2.txt"
 # file_in = "Files/input.txt"
 
 dir_struct = [

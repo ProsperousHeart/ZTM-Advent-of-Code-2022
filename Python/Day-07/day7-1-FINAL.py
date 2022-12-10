@@ -11,6 +11,8 @@ file_in = "Files/input.txt"
 #file_in = "Files/my-test.txt"
 dir_struct = []
 max_size = 100000
+max_space = 70000000
+nspace = 30000000
 
 
 class Dir_CMD:
@@ -200,23 +202,6 @@ class Parser_20221207:
             curr_grp_sid = itm_sid
             return lvl, curr_grp_sid, line_o
 
-        def update_dir_lvl_old(obj:Dir_CMD, name_str:str):  # created under assumption there were unique folders
-            # find index of the DIR using class.obj_list
-            dir_idx = obj.get_itm_idx(name=name_str)
-            if dir_idx:
-                # update level to it's level
-                obj = dir_struct[dir_idx]
-                print(f"dir '{obj.name}' has level '{obj.level} and sid '{obj.sid}'")
-                level = dir_struct[dir_idx].level
-                # update curr_grp_sid to item's sid
-                c_sid = obj.sid
-            else:
-                level = None
-                c_sid = None
-            print("=== ENDING: ===", dir_struct[dir_idx])
-            return dir_idx, (level, c_sid)
-            # return level, c_sid
-
         cmd = []
         # items = []
         try:
@@ -238,69 +223,16 @@ class Parser_20221207:
                                                 c_pid=curr_grp_sid,
                                                 lvl=level,
                                                 rmax=max_size)
-                            # curr_grp_sid = curr_csid
-                            # curr_csid += 1
-                            # level += 1
-                            # dir_struct.append(line_obj)  # to ensure we can tell if a directory has already been checked
-
-                            #line_obj = Dir_CMD(name=prsd_line[2],
-                            #                   type="dir",
-                            #                   sid=0,
-                            #                   pid=0,
-                            #                   level=level,
-                            #                   size=0,
-                            #                   req_max=max_size)
-                            ## line_obj.curr_csid+=1  # class SID (S/N) - prepping for next one
-                            ## dir_struct.append(line_obj)  # to ensure we can tell if a directory has already been checked
-                            ## items.append(line_obj)
-                            #curr_grp_sid = line_obj.sid
                             print("dir_struct", dir_struct)
-                            # curr_dir_sid = 0
                         elif prsd_line[-1] == "..":
                             # go up 1 level
                             print("CHANGE DIR:  go up 1 level to parent")
                             # level-=1
                             print("level:", level)
-                            ## print("==== NOT YET WRITTEN ====")
-                            ## tmp = [item for item in dir_struct if item.sid == curr_grp_sid][0]
                             line_obj = dir_struct[curr_grp_sid]
-                            ## tmp_idx = line_obj.get_itm_idx(itm_sid=curr_grp_sid)
-                            ## print(f"parent {dir_struct[tmp_idx].name}:", dir_struct[tmp_idx].pid)
-                            #print(f"parent {line_obj.name}:", line_obj.pid)
-                            ## level = dir_struct[tmp_idx].level + 1
-                            #level = line_obj.level - 1
-                            #print("new level:", level)
-                            ## curr_grp_sid = dir_struct[tmp_idx].sid
-                            #curr_grp_sid = line_obj.sid
-                            #line_obj
-                            # del tmp_idx
                             level, curr_grp_sid, line_obj = update_dir_level(line_obj.pid)
                             print("new level:", level)
                         else:  # CHANGE TO SOME DIRECTORY
-                            # find index of the DIR using class.obj_list
-                            # dir_idx = line_obj.get_itm_idx(name=prsd_line[-1])
-                            ## update level to it's level
-                            #level = line_obj[dir_idx].level
-                            ## update curr_grp_sid to item's sid
-                            #curr_grp_sid = line_obj.sid
-
-                            # dir_idx, tmp_tup = update_dir_lvl(line_obj, prsd_line[-1])
-                            # print("tmp_tup (level, curr_grp_sid):", tmp_tup) # level, csid
-                            # if not dir_idx:  # doesn't exist
-                            #     print("============== CREATING DIR ON CD ===========")
-                            #     print("curr_grp_sid:", curr_grp_sid)
-                            #     line_obj = new_item(elmnts=prsd_line,
-                            #                         c_sid=curr_csid,
-                            #                         c_pid=curr_grp_sid,
-                            #                         lvl=level,
-                            #                         rmax=max_size)
-                            #     curr_csid += 1
-                            #     # dir_struct.append(line_obj)  # to ensure we can tell if a directory has already been checked
-                            #     curr_grp_sid = line_obj.sid
-                            # else:
-                            #     level, curr_grp_sid = tmp_tup
-                            #     del tmp_tup
-
                             # check current directory children - if dir != exist, make one
                             tmp_kids = dir_struct[curr_grp_sid].children
                             tmp_kids = [kid for kid in tmp_kids if kid.name == prsd_line[-1]]
@@ -390,104 +322,6 @@ class Parser_20221207:
         except IOError as err:
             print(f"File does not exist:\t{self.file_str}")
             return
-        # return items
-
-    # ======================= created on 20221207 - trying something different ====================
-
-    def add_dirs(self, dirs):
-
-        pids = list(set([item[-1] for item in dirs]))
-        print("pids", pids)
-        for pid in reversed(pids):
-            if pid != 0:
-                items = [item for item in dirs if item[-1] == pid]
-                print(items)
-                total = sum([item[-3] for item in dirs if item[-1] == pid])
-                print(pid, total)
-                # print("looking...", [(idx, item) for idx, item in enumerate(dir_struct) if item[-2] == pid])
-                idx2update = [idx for idx, item in enumerate(dir_struct) if item[-2] == pid][0]
-                tmp = list(dir_struct[idx2update])
-                print("tmp", tmp)
-                tmp[-3] += total
-                print("tmp", tmp)
-                dir_struct[idx2update] = tuple(tmp)
-            else:
-                items = [item for item in dirs if item[-1] == pid]
-                print(items)
-                total = sum([item[-3] for item in dir_struct if item[1] != "dir"])
-                print(pid, total)
-                # print("add them up")
-                # items = [item for item in dirs if item[-1] == pid]
-                # print(items)
-                tmp = list(dir_struct[0])
-                # print("tmp", tmp)
-                # tmp[-3]+=sum([item[-3] for item in self.dirs if item[-1] == items[0][-2]])
-                tmp[-3] = total
-                # print("tmp", tmp)
-                dir_struct[0] = tuple(tmp)
-
-        self.dirs = self.find_dirs()
-
-    def add_dirs_original(self, dirs):
-        print("add_dirs...")
-        for item in dirs:
-            print(item)
-            if item[-1] != 0:
-                print("not root")
-                parent_idx, parent_dir = [(idx, dir) for idx, dir in enumerate(dirs) if dir[-2] == item[-1]][0]
-                parent_dir = list(parent_dir)
-                print(parent_idx, parent_dir)
-                parent_dir[-3] += item[-3]
-                dir_struct[parent_idx] = tuple(parent_dir)
-                print(dir_struct)
-
-    def find_dirs(self):
-        print("STARTING SEARCH")
-        dirs = [item for item in dir_struct if item[1] == 'dir']
-        print('dirs', dirs)
-        print("ENDING SEARCH")
-        return dirs
-
-    def get_sizes_old2(self, dirs):
-        # dirs = self.dirs
-        data = []
-        for dir_item in dirs:
-            # does this item have any folder items?
-            kids = self.get_kids(dir_item[0], dir_item[-2])
-            print(f"{dir_item[0]}:", kids)
-            if len(kids) == 0:
-                print("======= ERROR ===========")
-            else:
-                tmp_dirs = [item for item in kids if item[1] == "dir"]
-                if (any(tmp_dirs)):
-                    print("DIRECTORY FOUND!!!")
-                    print("tmp_dirs", tmp_dirs)
-                    for dir_itm in tmp_dirs:
-                        print(dir_itm)
-                        self.get_sizes([dir_itm])
-                else:
-                    size = sum([item[-3] for item in kids])
-                    data.append((dir_item[0], size))
-        return data
-
-    def get_sizes_old(self):
-        print("STARTING SIZE COUNT")
-        totals = []
-        dirs = self.dirs
-        for item in dirs:
-            print("next item:", item)
-            item_id = item[-2]
-            parent_id = item[-1]
-            print(f"item_id ({item_id})\tparent_id ({parent_id})")
-            # item_files = [file_info for file_info in dir_struct if file_info[-1] == item_id]
-            item_files = self.get_kids(item[0], item_id)
-            print("new files:", item_files)
-            total_num = sum([item[3] for item in item_files])
-            print("total_num:", total_num)
-            totals.append((item[0], total_num))
-        print("totals:")
-        pp.pprint(totals)
-        print("ENDING SIZE COUNT")
 
 
 class Parser_old:
@@ -573,8 +407,6 @@ class Parser_old:
                                     print("Folder not yet created")
                                     parent_id = None
                         elif parsed_line[1] == "ls":
-                            # dir_item = next((info for (indx, info) in enumerate(dir_struct) if info[1] == "dir" and info[2] == loc), None)
-                            # print("dir_item", dir_item)
                             pass
                         else:
                             print("============= ERROR =================")
@@ -608,53 +440,6 @@ class Parser_old:
             return
         return items
 
-    def add_dirs(self, dirs):
-
-        pids = list(set([item[-1] for item in dirs]))
-        print("pids", pids)
-        for pid in reversed(pids):
-            if pid != 0:
-                items = [item for item in dirs if item[-1] == pid]
-                print(items)
-                total = sum([item[-3] for item in dirs if item[-1] == pid])
-                print(pid, total)
-                # print("looking...", [(idx, item) for idx, item in enumerate(dir_struct) if item[-2] == pid])
-                idx2update = [idx for idx, item in enumerate(dir_struct) if item[-2] == pid][0]
-                tmp = list(dir_struct[idx2update])
-                print("tmp", tmp)
-                tmp[-3] += total
-                print("tmp", tmp)
-                dir_struct[idx2update] = tuple(tmp)
-            else:
-                items = [item for item in dirs if item[-1] == pid]
-                print(items)
-                total = sum([item[-3] for item in dir_struct if item[1] != "dir"])
-                print(pid, total)
-                # print("add them up")
-                # items = [item for item in dirs if item[-1] == pid]
-                # print(items)
-                tmp = list(dir_struct[0])
-                # print("tmp", tmp)
-                # tmp[-3]+=sum([item[-3] for item in self.dirs if item[-1] == items[0][-2]])
-                tmp[-3] = total
-                # print("tmp", tmp)
-                dir_struct[0] = tuple(tmp)
-
-        self.dirs = self.find_dirs()
-
-    def add_dirs_original(self, dirs):
-        print("add_dirs...")
-        for item in dirs:
-            print(item)
-            if item[-1] != 0:
-                print("not root")
-                parent_idx, parent_dir = [(idx, dir) for idx, dir in enumerate(dirs) if dir[-2] == item[-1]][0]
-                parent_dir = list(parent_dir)
-                print(parent_idx, parent_dir)
-                parent_dir[-3] += item[-3]
-                dir_struct[parent_idx] = tuple(parent_dir)
-                print(dir_struct)
-
     def find_dirs(self):
         print("STARTING SEARCH")
         dirs = [item for item in dir_struct if item[1] == 'dir']
@@ -662,87 +447,12 @@ class Parser_old:
         print("ENDING SEARCH")
         return dirs
 
-    def get_kids(self, name: str, pid: int):
-        # for item in dir_struct:
-        # print(pid, item[-1])
-        # if item[-1] == pid:
-        #     print(item)
-        return [item for item in dir_struct if item[-1] == pid and item[0] != name]
-
-    def get_sizes_old2(self, dirs):
-        # dirs = self.dirs
-        data = []
-        for dir_item in dirs:
-            # does this item have any folder items?
-            kids = self.get_kids(dir_item[0], dir_item[-2])
-            print(f"{dir_item[0]}:", kids)
-            if len(kids) == 0:
-                print("======= ERROR ===========")
-            else:
-                tmp_dirs = [item for item in kids if item[1] == "dir"]
-                if (any(tmp_dirs)):
-                    print("DIRECTORY FOUND!!!")
-                    print("tmp_dirs", tmp_dirs)
-                    for dir_itm in tmp_dirs:
-                        print(dir_itm)
-                        self.get_sizes([dir_itm])
-                else:
-                    size = sum([item[-3] for item in kids])
-                    data.append((dir_item[0], size))
-        return data
-
-    def get_sizes_old(self):
-        print("STARTING SIZE COUNT")
-        totals = []
-        dirs = self.dirs
-        for item in dirs:
-            print("next item:", item)
-            item_id = item[-2]
-            parent_id = item[-1]
-            print(f"item_id ({item_id})\tparent_id ({parent_id})")
-            # item_files = [file_info for file_info in dir_struct if file_info[-1] == item_id]
-            item_files = self.get_kids(item[0], item_id)
-            print("new files:", item_files)
-            total_num = sum([item[3] for item in item_files])
-            print("total_num:", total_num)
-            totals.append((item[0], total_num))
-        print("totals:")
-        pp.pprint(totals)
-        print("ENDING SIZE COUNT")
-
     # ================================================================================
-
-def get_kids(self, name: str, pid: int):
-    # for item in dir_struct:
-    # print(pid, item[-1])
-    # if item[-1] == pid:
-    #     print(item)
-    return [item for item in dir_struct if item[-1] == pid and item[0] != name]
 
 def update_folders(item_list: list):
     tmp_list = sorted([item for item in item_list if item.type != "file"], key = lambda x: x.sid, reverse=True)
     for item in tmp_list:
         item_list[item.pid].size += item.size
-
-def update_folders_old(item_list: list):
-    trk_sids = []
-    for item in item_list:
-        if item.sid not in trk_sids:
-            if item.type == "file":
-                # dir_struct[item.pid].size += item.size
-                print("SHOULD ALREADY BE ADDED <<<<<<<<<<<<<<<<<<<<<<<<<<<")
-                trk_sids.append(item.sid)
-            else:
-                print("update_folders item:", item)
-                if len(item.children) == 0:
-                    # add size to parent
-                    dir_struct[item.pid].size += item.size
-                    trk_sids.append(item.sid)
-                else:
-                    dir_struct[item.pid].size += item.size
-                    trk_sids.extend(update_folders(item.children))
-
-    return trk_sids
 
 def cnt_kids(item:Dir_CMD):
     print(f"+++++ count kids for {item.name} ++++++")
@@ -783,58 +493,6 @@ def sum_sizes(list2chk:list, msize:int=max_size):
     print("========== STop SUM SIZES =========")
     return sum([item[1] for item in dir_limited])
 
-##
-
-
-    # ensure folders updated
-
-    # ensure all folders include sizes of sub folders
-    # tmp_dirs = [item for item in dir_struct if item.type == "dir"]
-    # print("# directories:", len(tmp_dirs))
-    # print("tmp_dirs_data:", [(data.name, data.size) for data in tmp_dirs])
-    # for item in tmp_dirs:
-    #    print("====== pre-add =============")
-    #    print(dir_struct[item.pid])
-    #    if item.sid != item.pid:
-    #        #tmp_idx = item.get_itm_idx(itm_sid=item.pid)
-    #        #print(f"tmp_idx for {dir_struct[tmp_idx].name}:", tmp_idx)
-    #        #dir_struct[tmp_idx].size += item.size
-    #        dir_struct[item.pid].size += item.size
-    #    print("====== post-add =============")
-    #    print(dir_struct[item.pid])
-    update_folders(list2chk)
-
-    # find all folders of max size
-    print(f"=== finding folders of <={max_size} ===")
-    dirs = [(item.name, item.size, item.level, item.children) for item in list2chk if item.type == "dir" and item.size <= msize]
-    # dirs = [(item.name, item.size, item.level, item.children) for item in list2chk if item.size <= msize]
-    print(dirs, sum([item[1] for item in dirs]))
-    # dirs = [item for item in dir_struct if item.type == "dir"]
-    # print("dirs", dirs)
-
-    tmp_dirs = [(dir_info.name, dir_info.size, dir_info.children) for dir_info in dir_struct if dir_info.type == "dir" and msize >= dir_info.size > 0]
-    tmp_dirs = [(itm[0], itm[1], [(inner.name, inner.size, inner.type) for inner in itm[2]]) for itm in tmp_dirs]
-    pp.pprint(tmp_dirs)
-
-    #pp.pprint([(dir_info.name,
-    #            [(info, sum(info[1]) for info in [(itm.name, itm.size, itm.type) for itm in dir_info.children]])
-    #           for dir_info in dir_struct if dir_info.type == "dir"])
-
-    # sum_int = 0
-    # for item in dirs:
-    #     # sum_int += sum([itm.size for itm in item[3] if itm.type == "dir"])
-    #     sum_int += sum([itm.size for itm in item[3]])
-
-    print("========== END SUM SIZES =========")
-    return sum([item[1] for item in dirs])
-
-
-    # tmp_list = [item for item in list2chk if item.size <= msize]
-    # print("tmplist:", tmp_list)
-    # return the sum of their sizes
-    # return sum([item.size for item in tmp_list])
-
-
 
 # This section will allow python file to be run from command line
 if __name__ == "__main__":
@@ -849,21 +507,4 @@ if __name__ == "__main__":
     if file_in == "Files/test.txt":
         print("Need to be 95437")
     if file_in == "Files/input.txt":
-        print("Need to beat 705132 and be less than 2810413")
-        print("Also not: 2105281 or 7705231 or 3528711")
         print("FINAL:  1297159")
-
-#    # for item in reversed(obj.lines):
-#    #     # print(item.make_dict())
-#    #     print(item)
-#    # pp.pprint(dir_struct)
-#    # obj.find_dirs()
-#    # print(obj.dirs)
-#    # pp.pprint(obj.get_sizes(obj.dirs))
-#    print("final list", dir_struct)
-#    under = [directory for directory in dir_struct if directory[1] == "dir" and 0 < directory[-3] <= max_size]
-#    pp.pprint(under)
-#    sum_list = [item[-3] for item in under]
-#    total_size = sum(sum_list)
-#    pp.pprint(total_size)  # 1144079 is wrong, too low
-    # print(dir_struct)

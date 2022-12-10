@@ -3,7 +3,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-file_in = "Files/test.txt"
+file_in = "../Files/test.txt"
 # file_in = "Files/input.txt"
 
 dir_struct = [
